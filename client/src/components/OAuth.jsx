@@ -15,14 +15,14 @@ function OAuth() {
 
             const result = await signInWithPopup(auth, provider);
             
-            console.log(result.user.email,result.photoUrl);
+            console.log(result.user.photoURL);
 
             const res = await fetch('/api/auth/google', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                 },
-               body : JSON.stringify({ name: result.user.displayName, email: result.user.email, photo:result.photoUrl })
+               body : JSON.stringify({  photo: result.user.photoURL,name: result.user.displayName, email: result.user.email  })
             })
             const data = await res.json();
             console.log(data);
