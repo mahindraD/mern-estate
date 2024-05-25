@@ -4,8 +4,6 @@ import OAuth from '../components/OAuth';
 
 const SignUp = () => {
 
- 
-
   const [ formData, setFormData ] =useState({});
   const [ error,setError ] = useState(null);
   const [ loading,setLoading] = useState(false);
@@ -20,29 +18,31 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     try{
-    e.preventDefault();
-    setLoading(true);
-    const res =  await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    if(data.success === false){
-      setError(data.message);
+      e.preventDefault();
+      setLoading(true);
+      const res =  await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log("res=",res);
+      const data = await res.json();
+      if(data.success === false){
+        setError(data.message);
+        setLoading(false);
+        console.log(data);
+        return;
+      }
       setLoading(false);
-      console.log(data);
-      return;
+      setError(null);
+      navigate("/sign-in");
+    } catch(error){
+      console.log("in error");
+      setError(error.message);
+      setLoading(false);
     }
-    setLoading(false);
-    setError(null);
-    navigate("/sign-in");
-  } catch(error){
-    setError(error.message);
-    setLoading(false);
-  }
   }
 
   return (

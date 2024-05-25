@@ -9,10 +9,12 @@ export const signup = async (req,res,next) => {
     const newUser = new User({ username, email, password: hashedPassword});
     try{
         await newUser.save();
+        console.log("saved=",newUser);
         res.status(201).json({
             message:"user crated successfully"
         });
     } catch(error){
+        console.log("backend=",error);
         next(error);
     }
 }
